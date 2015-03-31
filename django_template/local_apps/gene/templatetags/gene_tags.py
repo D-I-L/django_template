@@ -31,7 +31,7 @@ def show_es_gene_section(gene_symbol=None, seqid=None,
                          start_pos=None, end_pos=None):
     ''' Template inclusion tag to render a gene section given a
     chado gene feature. '''
-    if seqid is not None and seqid.startswith("chr"):
+    if seqid is not None and isinstance(seqid, str) and seqid.startswith("chr"):
         seqid = seqid
     else:
         seqid = 'chr'+str(seqid)

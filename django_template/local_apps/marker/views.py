@@ -11,7 +11,7 @@ def marker_page(request, marker):
 
     # get gene(s) overlapping position
     position = context['data'][0]['start']
-    chrom = 'chr'+context['data'][0]['seqid']
+    chrom = 'chr'+str(context['data'][0]['seqid'])
     featurelocs = (Featureloc.objects
                    .filter(fmin__lt=position)  # @UndefinedVariable
                    .filter(fmax__gt=position)  # @UndefinedVariable
