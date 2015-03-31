@@ -11,3 +11,4 @@ __pycache__/
 settings_secret.py
 *_initial.py
 tmp
+apache
