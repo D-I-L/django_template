@@ -37,9 +37,9 @@ TEST_DB_UNMANAGED_TABLES_SCHEMA_FILE = os.path.join(BASE_DIR,
 # Application definition
 INSTALLED_APPS = (
 #     'django.contrib.admin',
-#     'django.contrib.auth',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
-#     'django.contrib.sessions',
+    'django.contrib.sessions',
 #     'django.contrib.messages',
     'django.contrib.staticfiles',
     'db',
