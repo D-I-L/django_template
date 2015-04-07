@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from db.api import CvtermResource, CvtermFullResource, CvResource
 from db.api import CvtermpropResource, FeaturelocResource
 from db.api import FeaturelocFullResource, FeatureResource, FeatureFullResource
@@ -22,15 +22,13 @@ api.register(FeaturepropResource())
 api.register(FeaturepropFullResource())
 api.register(CvtermpropResource())
 
-
-urlpatterns = patterns('',
-                       url(r'^', include('bands.urls', namespace="bands")),
-                       url(r'^api/', include(api.urls)),
-                       url(r'^search/', include('search.urls', namespace="search")),
-                       url(r'^gene/', include('gene.urls')),
-                       url(r'^marker/', include('marker.urls')),
-                       url(r'^region/', include('region.urls')),
-                       )
+urlpatterns = [url(r'^', include('bands.urls', namespace="bands")),
+               url(r'^api/', include(api.urls)),
+               url(r'^search/', include('search.urls', namespace="search")),
+               url(r'^gene/', include('gene.urls')),
+               url(r'^marker/', include('marker.urls')),
+               url(r'^region/', include('region.urls')),
+               ]
 
 if(settings.DEBUG):
     urlpatterns.append(url(r'^'+settings.SEARCH_MARKERDB+'|' +
