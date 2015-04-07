@@ -13,6 +13,7 @@ from django_template.settings_secret import *
 import os
 import sys
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_DIR = os.path.dirname(__file__)
 
 sys.path.insert(0, os.path.join(BASE_DIR, 'django_template/local_apps'))
 
@@ -81,6 +82,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "django_template/static"),
 )
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'apache')
 
 
 TEMPLATE_DIRS = (
@@ -88,22 +90,45 @@ TEMPLATE_DIRS = (
 )
 
 # writes all request logging from the django.request logger to a local file
-LOG_FILE = os.path.join(BASE_DIR, 'tmp/debug.log')
+LOG_FILE = os.path.join(BASE_DIR, 'tmp/django_template.log')
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': LOG_FILE,
+            'formatter': 'verbose'
+        },
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
         },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
+        },
+        'search': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
         },
     },
 }
