@@ -106,7 +106,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': LOG_FILE,
-            'formatter': 'verbose'
+            'formatter': 'verbose',
         },
         'null': {
             'level': 'DEBUG',
@@ -127,6 +127,7 @@ LOGGING = {
         'search': {
             'handlers': ['file', 'console'],
             'level': 'DEBUG',
+            'propagate': True,
         },
     },
 }
