@@ -5,8 +5,6 @@ from db.api import FeaturelocFullResource, FeatureResource, FeatureFullResource
 from db.api import FeaturepropResource, FeaturepropFullResource
 from db.api import OrganismResource
 from tastypie.api import Api
-from django_template import settings
-from search.views import reverse_proxy
 
 # register tastypie api
 api = Api(api_name='dev')
@@ -29,10 +27,3 @@ urlpatterns = [url(r'^', include('bands.urls', namespace="bands")),
                url(r'^marker/', include('marker.urls')),
                url(r'^region/', include('region.urls')),
                ]
-
-if(settings.DEBUG):
-    urlpatterns.append(url(r'^'+settings.SEARCH_MARKERDB+'|' +
-                           settings.SEARCH_MARKERDB+',\w+/_search'+'|' +
-                           settings.SEARCH_GENEDB + '|' +
-                           settings.SEARCH_REGIONDB,
-                           reverse_proxy),)
