@@ -13,7 +13,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from datetime import datetime
+from django.utils import timezone
 
 
 class Cv(models.Model):
@@ -167,8 +167,8 @@ class Feature(models.Model):
     type = models.ForeignKey(Cvterm)
     is_analysis = models.BooleanField(default=False)
     is_obsolete = models.BooleanField(default=False)
-    timeaccessioned = models.DateTimeField(default=datetime.now, blank=True)
-    timelastmodified = models.DateTimeField(default=datetime.now, blank=True)
+    timeaccessioned = models.DateTimeField(default=timezone.now, blank=True)
+    timelastmodified = models.DateTimeField(default=timezone.now, blank=True)
     objects = FeatureQuerySet.as_manager()
 
     class Meta:
