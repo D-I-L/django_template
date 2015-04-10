@@ -69,10 +69,10 @@ WSGI_APPLICATION = 'django_template.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/London'
 USE_I18N = True
 USE_L10N = True
-USE_TZ = False
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -104,9 +104,12 @@ LOGGING = {
     'handlers': {
         'file': {
             'level': 'DEBUG',
-            'class': 'logging.FileHandler',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'when': 'midnight',
+            'interval': 1,
+            'backupCount': 10,
             'filename': LOG_FILE,
-            'formatter': 'verbose'
+            'formatter': 'verbose',
         },
         'null': {
             'level': 'DEBUG',
@@ -127,6 +130,7 @@ LOGGING = {
         'search': {
             'handlers': ['file', 'console'],
             'level': 'DEBUG',
+            'propagate': True,
         },
     },
 }
