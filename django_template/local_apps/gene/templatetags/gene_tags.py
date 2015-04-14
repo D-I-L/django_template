@@ -56,5 +56,5 @@ def show_es_gene_section(gene_symbol=None, seqid=None,
         query = {"bool": {"must": must}}
         data = {"query": query}
         print(query)
-    elastic = Elastic(data, db=ElasticSettings.getattr(name='GENE_IDX'))
+    elastic = Elastic(data, db=ElasticSettings.idx(name='GENE'))
     return {'es_genes': elastic.get_result()["data"]}
