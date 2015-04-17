@@ -1,6 +1,7 @@
 from django import template
 from db.models import FeatureDbxref, FeatureSynonym
-from search.elastic_model import Elastic, ElasticQuery, BoolQuery
+from search.elastic_model import Elastic, ElasticQuery, BoolQuery, Query,\
+    RangeQuery
 from search.elastic_settings import ElasticSettings
 
 register = template.Library()
@@ -40,15 +41,15 @@ def show_es_gene_section(gene_symbol=None, seqid=None,
         query = ElasticQuery.query_match("gene_symbol", gene_symbol)
     elif end_pos is None:
         ''' start and end are same, range query for snp'''
-        query_bool = BoolQuery(must_arr=[{"match": {"seqid": seqid}},
-                                         {"range": {"featureloc.start": {"lte": start_pos, "boost": 2.0}}},
-                                         {"range": {"featureloc.end": {"gte": start_pos, "boost": 2.0}}}])
+        query_bool = BoolQuery(must_arr=[Query.query_match("seqid", seqid),
+                                         RangeQuery("featureloc.start", lte=start_pos),
+                                         RangeQuery("featureloc.end", gte=start_pos)])
         query = ElasticQuery.bool(query_bool)
     else:
         ''' start and end are same, range query for snp'''
-        query_bool = BoolQuery(must_arr=[{"match": {"seqid": seqid}},
-                                         {"range": {"featureloc.start": {"gte": start_pos, "boost": 2.0}}},
-                                         {"range": {"featureloc.end": {"lte": end_pos, "boost": 2.0}}}])
+        query_bool = BoolQuery(must_arr=[Query.query_match("seqid", seqid),
+                                         RangeQuery("featureloc.start", gte=start_pos),
+                                         RangeQuery("featureloc.end", lte=end_pos)])
         query = ElasticQuery.bool(query_bool)
 
     elastic = Elastic(query, db=ElasticSettings.idx(name='GENE'))
