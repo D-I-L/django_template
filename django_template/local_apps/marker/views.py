@@ -1,13 +1,15 @@
 from django.shortcuts import render
-from search.elastic_model import Elastic
+from search.elastic_model import Elastic, ElasticQuery
 from db.models import Featureloc
+import re
 
 
 def marker_page(request, marker):
     ''' Render a marker page '''
-    data = {"query": {"match": {"id": marker}}}
-    elastic = Elastic(data)
+    query = ElasticQuery.query_match("id", marker)
+    elastic = Elastic(query)
     context = elastic.get_result()
+    _add_info(context)
 
     # get gene(s) overlapping position
     position = context['data'][0]['start']
@@ -28,3 +30,20 @@ def marker_page(request, marker):
 
     return render(request, 'marker/marker.html', context,
                   content_type='text/html')
+
+
+def _add_info(context):
+    ''' Parse VCF INFO field and add to the search hit '''
+    if 'info' not in context['data'][0]:
+        return
+
+    ''' Split and add INFO tags and values '''
+    infos = re.split(';', context['data'][0]['info'])
+    for info in infos:
+        if "=" in info:
+            parts = re.split('=', info)
+            if parts[0] not in context['data'][0]:
+                context['data'][0][parts[0]] = parts[1]
+        else:
+            if info not in context['data'][0]:
+                context['data'][0][info] = ""
