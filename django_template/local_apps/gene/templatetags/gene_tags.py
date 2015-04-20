@@ -1,8 +1,8 @@
 from django import template
 from db.models import FeatureDbxref, FeatureSynonym
-from search.elastic_model import Elastic, ElasticQuery, BoolQuery, Query,\
+from elastic.elastic_model import Elastic, ElasticQuery, BoolQuery, Query,\
     RangeQuery
-from search.elastic_settings import ElasticSettings
+from elastic.elastic_settings import ElasticSettings
 
 register = template.Library()
 

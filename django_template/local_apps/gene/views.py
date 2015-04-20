@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 def gene_page(request, gene):
-    ''' Gene search'''
+    ''' Gene elastic'''
     try:
         feature = Feature.objects.get(uniquename=gene)  # @UndefinedVariable
     except ObjectDoesNotExist:

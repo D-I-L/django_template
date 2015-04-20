@@ -44,7 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'db',
     'bands',
-    'search',
+    'elastic',
     'gene',
     'marker',
     'region'
@@ -127,7 +127,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'search': {
+        'elastic': {
             'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,

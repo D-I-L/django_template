@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from search.elastic_model import Elastic, ElasticQuery
+from elastic.elastic_model import Elastic, ElasticQuery
 from db.models import Featureloc
 import re
 
@@ -33,7 +33,7 @@ def marker_page(request, marker):
 
 
 def _add_info(context):
-    ''' Parse VCF INFO field and add to the search hit '''
+    ''' Parse VCF INFO field and add to the elastic hit '''
     if 'info' not in context['data'][0]:
         return
 
