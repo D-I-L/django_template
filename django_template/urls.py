@@ -22,7 +22,7 @@ api.register(CvtermpropResource())
 
 urlpatterns = [url(r'^', include('bands.urls', namespace="bands")),
                url(r'^api/', include(api.urls)),
-               url(r'^search/', include('search.urls', namespace="search")),
+               url(r'^search/', include('elastic.urls', namespace="elastic")),
                url(r'^gene/', include('gene.urls')),
                url(r'^marker/', include('marker.urls')),
                url(r'^region/', include('region.urls')),
