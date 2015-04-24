@@ -1,6 +1,6 @@
 from django import template
 from db.models import FeatureDbxref, FeatureSynonym
-from elastic.elastic_model import Elastic, ElasticQuery, BoolQuery, Query,\
+from elastic.elastic_model import Search, ElasticQuery, BoolQuery, Query,\
     RangeQuery
 from elastic.elastic_settings import ElasticSettings
 
@@ -52,5 +52,5 @@ def show_es_gene_section(gene_symbol=None, seqid=None,
                                          RangeQuery("featureloc.end", lte=end_pos)])
         query = ElasticQuery.bool(query_bool)
 
-    elastic = Elastic(query, db=ElasticSettings.idx(name='GENE'))
+    elastic = Search(query, idx=ElasticSettings.idx(name='GENE'))
     return {'es_genes': elastic.get_result()["data"]}

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from elastic.elastic_model import Elastic, ElasticQuery
+from elastic.elastic_model import Search, ElasticQuery
 from db.models import Featureloc
 import re
 
@@ -7,7 +7,7 @@ import re
 def marker_page(request, marker):
     ''' Render a marker page '''
     query = ElasticQuery.query_match("id", marker)
-    elastic = Elastic(query)
+    elastic = Search(query)
     context = elastic.get_result()
     _add_info(context)
 
