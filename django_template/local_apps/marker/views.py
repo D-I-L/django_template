@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from elastic.elastic_model import Search, ElasticQuery
+from elastic.elastic_settings import ElasticSettings
 from db.models import Featureloc
 import re
 
@@ -10,6 +11,11 @@ def marker_page(request, marker):
     elastic = Search(query)
     context = elastic.get_result()
     _add_info(context)
+
+    # rs history lookup
+    query = ElasticQuery.query_match("rscurrent", marker.replace("rs", ""))
+    rs_history = Search(query, idx=ElasticSettings.idx('MARKER_HISTORY'))
+    context['history'] = rs_history.get_result()
 
     # get gene(s) overlapping position
     position = context['data'][0]['start']

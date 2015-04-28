@@ -23,6 +23,18 @@
 		</td></tr>
 	</table>
 	</div>
+	
+	{% if history %}
+		<h3>Historical IDs</h3>
+  		<div class="table-responsive">
+		<table class="table table-striped table-condensed">
+		<tr><th>Old Marker ID</th><th>New Marker ID</th><th>Current Marker ID</th><th>dbSNP Build</th></tr>
+		{% for rs_history in history.data %}
+			<tr><td>rs{{ rs_history.rshigh }}</td><td>rs{{ rs_history.rslow }}</td><td>rs{{ rs_history.rscurrent }}</td><td>{{ rs_history.build_id }}</td></tr>
+		{% endfor %}
+		</table>
+		</div>
+	{% endif %}
 
 	<h3>Overlapping Gene(s)</h3>
 	{% show_es_gene_section seqid=data.0.seqid start_pos=data.0.start %}
