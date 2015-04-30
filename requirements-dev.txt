@@ -2,9 +2,9 @@ Django==1.8
 -e git+http://github.com/django-tastypie/django-tastypie#egg=tastypie
 #django-tastypie==0.12.1
 psycopg2==2.6
-python-dateutil==2.4.1
+python-dateutil==2.4.2
 python-mimeparse==0.1.4
 python3-memcached==1.51
-requests==2.6.0
+requests==2.6.2
 six==1.9.0
-urllib3==1.10.2
+urllib3==1.10.3
