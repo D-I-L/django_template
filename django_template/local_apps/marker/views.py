@@ -13,7 +13,7 @@ def marker_page(request, marker):
     _add_info(context)
 
     # rs history lookup
-    query = ElasticQuery.query_match("rscurrent", marker.replace("rs", ""))
+    query = ElasticQuery.query_match("rscurrent", marker)
     rs_history = Search(query, idx=ElasticSettings.idx('MARKER_HISTORY'))
     context['history'] = rs_history.get_result()
 
