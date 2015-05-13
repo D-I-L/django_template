@@ -8,6 +8,39 @@
 		}
 		return undefined;
 	}
+	
+
+	diseases.addDiseaseBut = function (diseases) {
+    	var spinner = '<i class="fa fa-spinner fa-spin pull-right" id="disease_spinner"></i>';
+    	$(spinner).insertAfter($("#diseases"));
+    	
+    	var disease_arr = $.map(diseases, function(el) { return el; })
+    	disease_arr.sort(function(a, b) {
+ 		   return a['_source'].name.localeCompare(b['_source'].name);
+ 		});
+    	
+    	var other_menu = '';
+    	for (var i = 0; i < disease_arr.length; i++) {
+  			var disease = disease_arr[i]['_source'];
+			var shortName = disease['code'];
+			var colour = disease['colour'];
+			var rank = disease['tier'];
+  			if(rank == 0) {
+  				$("#diseases").append('<button type="button" data-toggle="btn-input" '+
+  					'id="disease_'+shortName+'" value="'+disease.name+'" '+
+  					'class="btn btn-default btn-disease"><strong>'+shortName+'</strong></button>');
+  				$("#disease_"+shortName).css({ "background-color": colour, "color": "white"});
+  			} else {
+  				other_menu+='<li><a href="#"><strong>'+shortName+'</strong></a></li>';
+  			}
+		}
+ 
+    	$("#diseases").append('<div class="btn-group btn-group-xs" role="group" id="diseaseDropDown">'+
+					'<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
+					'<strong>OTHERS</strong> <span class="caret"></span></button>'+
+					'<ul class="dropdown-menu" role="menu" id="diseaseDropDownMenus"></ul></div>');
+    	$("#diseaseDropDownMenus").append(other_menu);
+	}
 
 	diseases.addDiseaseButtons = function (organism, dilCvterms, residues) {
     	var url = '/api/dev/cvtermfull/?format=json&cv__name=disease';
