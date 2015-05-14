@@ -63,11 +63,12 @@ def _getcontext(org):
 
 
 def cytobands(request, org):
-    context = cache.get('cytobands-context')
+    context = cache.get('bands-context')
     if context is None:
         context = _getcontext(org)
         # 60 mins cache
-        cache.set('cytobands-context', context, 60 * 60)
+        cache.set('bands-context', context, 360)
+
     return render(request, 'bands/bands.html', context)
 
 
