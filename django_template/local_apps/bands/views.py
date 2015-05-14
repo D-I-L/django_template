@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 from db.models import Feature, Featureloc, Cv, Cvterm
 
@@ -38,9 +39,8 @@ def cytobands_ws(request, org):
                   content_type='text/html')
 
 
-# 60 mins cache
-@cache_page(60 * 60)
-def cytobands(request, org):
+def _getcontext(org):
+    ''' Get info for cytobands and diseases. '''
     bands = Featureloc.objects.getCytoBands(org)  # @UndefinedVariable
     srcIds = bands.distinct('srcfeature_id')
     srcfeatures = (Feature.objects
@@ -57,9 +57,17 @@ def cytobands(request, org):
     cv = Cv.objects.get(name="DIL")
     cvtermDIL = Cvterm.objects.filter(cv=cv)
 
-    context = {'bands': bands, 'srcfeatures': srcfeatures,
-               'org': org, 'cvtermDIL': cvtermDIL,
-               'title': 'Cytobands'}
+    return {'bands': bands, 'srcfeatures': srcfeatures,
+            'org': org, 'cvtermDIL': cvtermDIL,
+            'title': 'Cytobands'}
+
+
+def cytobands(request, org):
+    context = cache.get('cytobands-context')
+    if context is None:
+        context = _getcontext(org)
+        # 60 mins cache
+        cache.set('cytobands-context', context, 60 * 60)
     return render(request, 'bands/bands.html', context)
 
 
