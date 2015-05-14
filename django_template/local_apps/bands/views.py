@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
-
+from django.core.cache import cache
 from db.models import Feature, Featureloc, Cv, Cvterm
-
 import logging
+
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
@@ -38,9 +38,8 @@ def cytobands_ws(request, org):
                   content_type='text/html')
 
 
-# 60 mins cache
-@cache_page(60 * 60)
-def cytobands(request, org):
+def _getcontext(org):
+    ''' Get info for cytobands and diseases. '''
     bands = Featureloc.objects.getCytoBands(org)  # @UndefinedVariable
     srcIds = bands.distinct('srcfeature_id')
     srcfeatures = (Feature.objects
@@ -57,9 +56,29 @@ def cytobands(request, org):
     cv = Cv.objects.get(name="DIL")
     cvtermDIL = Cvterm.objects.filter(cv=cv)
 
-    context = {'bands': bands, 'srcfeatures': srcfeatures,
-               'org': org, 'cvtermDIL': cvtermDIL,
-               'title': 'Cytobands'}
+    ''' reduce size of the returned context by providing
+    slim version of bands objs '''
+    bands_slim = []
+    for band in bands:
+        this_band = {}
+        this_band['srcfeature_uniquename'] = band.srcfeature.uniquename
+        this_band['fmax'] = band.fmax
+        this_band['fmin'] = band.fmin
+        this_band['feature_type'] = band.feature.type
+        bands_slim.append(this_band)
+
+    return {'bands': bands_slim, 'srcfeatures': srcfeatures,
+            'org': org, 'cvtermDIL': cvtermDIL,
+            'title': 'Cytobands'}
+
+
+def cytobands(request, org):
+    context = cache.get('bands-context')
+    if context is None:
+        context = _getcontext(org)
+        # 60 mins cache
+        cache.set('bands-context', context, 360)
+
     return render(request, 'bands/bands.html', context)
 
 

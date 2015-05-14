@@ -100,10 +100,10 @@ $(document).ready(function() {
 	function getBands(chr) {
   		var bands = [];
   		{% for floc in bands %}
-		    var src = "{{ floc.srcfeature.uniquename }}";
+		    var src = "{{ floc.srcfeature_uniquename }}";
 		    if(src === chr) {
 		    	var seqlen = {{ floc.fmax }} - {{ floc.fmin }} + 1;
-		    	var colour = cytobands.col.{{ floc.feature.type }};
+		    	var colour = cytobands.col.{{ floc.feature_type }};
 		    	var band = { seqlen:seqlen, fmin:{{ floc.fmin }}, fmax: {{ floc.fmax }}, col: colour };
 	    		bands.push(band);
 	   		}
