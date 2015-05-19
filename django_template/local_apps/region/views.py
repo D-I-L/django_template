@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from elastic.elastic_model import Search, ElasticQuery
+from elastic.search import Search, ElasticQuery
 from elastic.elastic_settings import ElasticSettings
 
 
