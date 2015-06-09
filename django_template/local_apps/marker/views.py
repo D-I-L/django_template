@@ -13,9 +13,9 @@ def marker_page(request, marker):
     _add_info(context)
 
     # rs history lookup
-    if Search.index_exists(idx=ElasticSettings.idx('MARKER_HISTORY')):
+    if Search.index_exists(idx=ElasticSettings.idx(name='MARKER', idx_type='HISTORY')):
         query = ElasticQuery.query_match("rscurrent", marker)
-        rs_history = Search(query, idx=ElasticSettings.idx('MARKER_HISTORY'))
+        rs_history = Search(query, idx=ElasticSettings.idx(name='MARKER', idx_type='HISTORY'))
         context['history'] = rs_history.get_result()
 
     # get gene(s) overlapping position

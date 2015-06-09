@@ -1,22 +1,31 @@
+
+{% load filter_tags %}
 <!-- elasticsearch gene section -->
 {% for es_gene in es_genes %}
 
 <table class="table table-striped table-condensed">
-	<tr><td>Gene </td><td>{{ es_gene.gene_symbol }}</td></tr>
-	<tr><td>HGNC </td><td>{{ es_gene.hgnc }}</td></tr>
+	<tr><td>Gene </td><td>{{ es_gene|doc_attr:"gene_symbol" }}</td></tr>
+	<tr><td>HGNC </td><td>{{ es_gene|doc_attr:"hgnc" }}</td></tr>
 
-{% for db, acc in es_gene.dbxrefs.items %}
+{% with dbxrefs=es_gene|doc_attr:"dbxrefs" %}
+{% for db, acc in dbxrefs.items %}
 	<tr><td>{{ db|capfirst }}</td><td>{{ acc }}</td></tr>
 {% endfor %}
+{% endwith %}
+
 
 	<tr><td>Synonyms </td><td>
-{% for synonym in es_gene.synonyms %}
+	
+{% with synonyms=es_gene|doc_attr:"synonyms"  %}
+{% for synonym in synonyms %}
 	{{ synonym }}; 
 {% endfor %}
+{% endwith %}
+
 	</td></tr>
 
 	<tr><td>Location  </td><td>
-{% with loc=es_gene.featureloc %}
+{% with loc=es_gene|doc_attr:"featureloc" %}
 	<a href="/search/{{ loc.seqid }}:{{ loc.start }}-{{ loc.end }}">{{ loc.seqid }}:{{ loc.start }}-{{ loc.end }}</a>
 {% endwith %}
 	</td></tr>

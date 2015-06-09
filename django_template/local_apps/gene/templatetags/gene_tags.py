@@ -53,4 +53,4 @@ def show_es_gene_section(gene_symbol=None, seqid=None,
         query = ElasticQuery.bool(query_bool)
 
     elastic = Search(query, idx=ElasticSettings.idx(name='GENE'))
-    return {'es_genes': elastic.get_result()["data"]}
+    return {'es_genes': elastic.search().docs}
