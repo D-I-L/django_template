@@ -47,7 +47,9 @@ INSTALLED_APPS = (
     'elastic',
     'gene',
     'marker',
-    'region'
+    'region',
+    'rest_framework',
+    'rest_framework_swagger',
 )
 
 MIDDLEWARE_CLASSES = (
