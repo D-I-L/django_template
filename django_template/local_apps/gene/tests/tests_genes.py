@@ -67,19 +67,19 @@ class GenesTestCase(TestCase):
         rendered = t.render(c)
         self.assertIn("PTPN22", rendered)
         self.assertIn("9652", rendered)
-        self.assertIn("ENSG00000134242", rendered)
+        self.assertIn("protein_coding", rendered)
 
     def test_inclusion_tag3(self):
         ''' Test the show_es_gene_section tag - given a position
         on a sequence '''
         t = Template('{% load gene_tags %}' +
                      '{% show_es_gene_section seqid=seqid start_pos=pos %}')
-        context = {'seqid': '1', 'pos': 113834947}
+        context = {'seqid': '1', 'pos': 113813811}
         c = Context(context)
         rendered = t.render(c)
         self.assertIn("PTPN22", rendered)
         self.assertIn("9652", rendered)
-        self.assertIn("ENSG00000134242", rendered)
+        self.assertIn("protein_coding", rendered)
 
     def test_inclusion_tag4(self):
         ''' Test the show_es_gene_section tag - given a range
