@@ -55,7 +55,7 @@ def search(request, query, search_idx=ElasticSettings.indices_str()):
     context['size'] = result.size
     context['query'] = result.query
     context["idxs"] = _categories(result.idx)
-    return render(request, 'elastic/searchresults.html', context,
+    return render(request, 'search/searchresults.html', context,
                   content_type='text/html')
 
 
@@ -75,7 +75,7 @@ def range_overlap_search(request, src, start, stop, search_idx=ElasticSettings.i
     context["chromosome"] = src
     context["start"] = start
     context["stop"] = stop
-    return render(request, 'elastic/searchresults.html', context,
+    return render(request, 'search/searchresults.html', context,
                   content_type='text/html')
 
 
