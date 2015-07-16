@@ -52,7 +52,7 @@ class CvtermViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FeatureViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Feature.objects.all()
+    queryset = Feature.objects.all()  # @UndefinedVariable
     serializer_class = FeatureSerializer
     filter_fields = ('name', 'uniquename', 'type__name')
 
@@ -88,7 +88,7 @@ elastic_api.register(MarkerResource())
 urlpatterns = [url(r'^', include('bands.urls', namespace="bands")),
                url(r'^api/', include(api.urls)),
                url(r'^elastic/', include(elastic_api.urls)),
-               url(r'^search/', include('elastic.urls', namespace="elastic")),
+               url(r'^search/', include('search.urls', namespace="elastic")),
                url(r'^gene/', include('gene.urls')),
                url(r'^marker/', include('marker.urls')),
                url(r'^region/', include('region.urls')),
