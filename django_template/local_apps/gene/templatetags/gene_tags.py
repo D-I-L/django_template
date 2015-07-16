@@ -38,7 +38,7 @@ def show_es_gene_section(gene_symbol=None, seqid=None,
         seqid = 'chr'+str(seqid)
     if gene_symbol is not None:
         ''' gene symbol query'''
-        query = ElasticQuery.query_match("gene_symbol", gene_symbol)
+        query = ElasticQuery.query_match("symbol", gene_symbol)
     elif end_pos is None:
         ''' start and end are same, range query for snp'''
         query_bool = BoolQuery(must_arr=[Query.match("seqid", seqid),
