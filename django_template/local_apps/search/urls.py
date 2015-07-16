@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from elastic import views
+from search import views
 
 urlpatterns = [
                # range overlap queries @IgnorePep8
